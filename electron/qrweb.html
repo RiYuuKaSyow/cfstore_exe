@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="UserContent-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js" ></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script type="text/javascript" src="instascan.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>無人商店結帳系統</title>
+    <style type="text/css">
+        @media only screen and (max-width:800px){
+            div{
+                width: 100%;
+                text-align: center;
+            }
+            #preview{
+                width: 500px;
+            }
+        }
+        @media only screen and (min-width:800px){
+            div{
+                top: 1px;
+                width: 100%;
+                height: 30%;
+                text-align: center;
+                font-size: 120%;
+            }
+            #preview{
+                height: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="qr" class="container">
+        <div class="row">
+            <div>
+                請將QRcode放置在鏡頭前<br>
+                並確保QRcode的清晰度以辨識身分
+            </div>
+        </div>
+        <div id="qrcam" class="row">
+            <video id="preview"></video>
+            <div id="view" > </div>
+            <script type="text/javascript">
+            let scanner = new Instascan.Scanner({
+                video: document.getElementById('preview')
+            });
+            Instascan.Camera.getCameras().then(function(cameras) {
+            //取得設備的相機數目
+                if (cameras.length > 0) {
+                  ///若設備相機數目大於0 則先開啟第0個相機(程式的世界是從第零個開始的)
+                    scanner.start(cameras[0]);
+                } else {
+                  //若設備沒有相機數量則顯示"No cameras found";
+                  //這裡自行判斷要寫什麼
+                    console.error('No cameras found.');
+                }
+            }).catch(function(e) {
+                console.error(e);
+            });
+            
+            scanner.addListener('scan', function(content) {
+                $("#view").html( $("#preview").val() ) ;
+                var $content = decodeURI(content) ;
+                console.log(content);
+                console.log($content);
+                $.ajax({
+                    url : 'http://120.101.8.8/npstore/php/client.php?action=exe_check_id&' + content ,
+                    //data : {  user:decodeURI($content)  , action : 'exe_check_id'  } ,
+                    dataType:'json' ,
+                    success : function( msg ){
+                        if( msg.user != 0 ){
+                            if (window.localStorage) {
+                               //存储变量的值
+                               localStorage.user = msg.user;
+                               localStorage.ord = msg.ord;
+                               location.href = './shop.html';
+                           } else {
+                               alert("NOT SUPPORT");
+                           }
+                           
+                        }else{
+                            alert("QRcode錯誤") ;
+                        }
+                    } ,
+                    error : function(){
+                        alert(" ERROR : 8763 。 \n 可能 : QRcode錯誤 ， \n\t 網路錯誤 ， \n\t 伺服端錯誤 。 \n 請先確認QRcode是否正確 。") ;
+                    }
+                })
+            });
+            </script>
+        </div>
+    </div>
+    
+</body>
+</html>
