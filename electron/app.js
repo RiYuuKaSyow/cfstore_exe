@@ -6,7 +6,8 @@ let mainwindow ;
 
 function createwindow(){
     mainwindow = new browser({
-        fullscreen:false,
+        //fullscreen:false,
+        fullscreen:true,
         fullscreenable:true, 
         width:720,
         height:480,
@@ -17,7 +18,7 @@ function createwindow(){
     electron.Menu.setApplicationMenu(null) ;
     mainwindow.loadFile('select.html') ;
     //mainwindow.webContents.openDevTools() ;
-    //mainwindow.setFullScreen(true) ;
+    mainwindow.setFullScreen(true) ;
     mainwindow.on('closed',function(){
         mainwindow = null ;
     }) ;
