@@ -18,12 +18,25 @@
     <title>無人商店結帳系統</title>
     <style type="text/css">
         @media only screen and (max-width:800px){
+            
+            body{
+                overflow:hidden;     
+            }
+            #qr{
+                overflow:hidden; 
+                width:720px ;
+                height: 480px ;
+            }
             div{
+                font-size: 24px;
                 width: 100%;
                 text-align: center;
             }
             #preview{
-                width: 500px;
+                position: absolute;
+                top:70px;
+                margin-left: 30px;
+                width: 450px;
             }
         }
         @media only screen and (min-width:800px){
@@ -50,8 +63,7 @@
             </div>
         </div>
         <div id="qrcam" class="row">
-            <video id="preview"></video>
-            <div id="view" > </div>
+            <video id="preview" ></video>
             <script type="text/javascript">
             let scanner = new Instascan.Scanner({
                 video: document.getElementById('preview')
@@ -71,10 +83,7 @@
             });
             
             scanner.addListener('scan', function(content) {
-                $("#view").html( $("#preview").val() ) ;
-                var $content = decodeURI(content) ;
                 console.log(content);
-                console.log($content);
                 $.ajax({
                     url : 'http://120.101.8.8/npstore/php/client.php?action=exe_check_id&' + content ,
                     //data : {  user:decodeURI($content)  , action : 'exe_check_id'  } ,
@@ -82,10 +91,11 @@
                     success : function( msg ){
                         if( msg.user != 0 ){
                             if (window.localStorage) {
+                                var $href = localStorage["href"] ;
                                //存储变量的值
                                localStorage.user = msg.user;
                                localStorage.ord = msg.ord;
-                               location.href = './shop.html';
+                               location.replace($href) ;
                            } else {
                                alert("NOT SUPPORT");
                            }

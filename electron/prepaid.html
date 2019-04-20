@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="UserContent-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js" ></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script type="text/javascript" src="instascan.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>無人商店結帳系統-儲值</title>
+    <style media="screen">
+        #prepaid_frame{
+            background-color: #e8e8e8;
+            margin-top: 5px ;
+            height: 395px;
+            width: 720px;
+        }
+        .myalert1{
+            
+            background-color: #fff;
+            font-size: 400% ;
+            display: none ;
+            position: absolute;
+            top: 0;
+            height: 400px;
+            width: 730px;
+            border:2px #cccccc solid;
+            z-index: 9999 ;
+        }
+        .myalert2{
+            background-color: #fff;
+            font-size: 400% ;
+            display: none ;
+            position: absolute;
+            border:2px #cccccc solid;
+            z-index: 9999 ;
+            top: 0;
+            height: 400px;
+            width: 730px;
+        }
+        #prepaid_num{
+            background-color: white;
+            border-style: solid;
+            border-color: #eee;
+            height: 47px;
+        }
+        #prepaid_num_row{
+            font-size: 30px;
+        }
+        #exit_btn{
+            width:150px;
+            height: 75px;
+            font-size: 25px;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        var $user = localStorage["user"];
+        $(function(){
+            $("#exit_btn").click(function(){
+                $("#exit_alert").slideDown() ;
+            });
+            $("#exit_exit_btn").click(function(){
+                $("#exit_alert").slideUp() ;
+            });
+            $("#exit_check_btn").click(function(){
+                location.replace('select.html') ;
+            })
+            var num = '' ;
+            for( var i = 0 ; i < 10 ; i++ ){
+                $("#"+i).click(function(){
+                    num += String( $(this).attr('id') ) ;
+                    $("#prepaid_num").html(num) ;
+                })
+            };
+            $("#C").click(function(){
+                num = '' ;
+                $("#prepaid_num").html(num) ;
+            });
+            $("#prepaid_img").click(function(){
+                $("#account_check").html($user) ;
+                $("#num_check").html( $("#prepaid_num").html() ) ;
+                $("#prepaid_alert").fadeIn(200);    
+            });
+            $("#noprepaid_btn").click(function(){
+                $("#prepaid_alert").fadeOut(200); 
+            });
+            $("#prepaid_btn").click(function(){
+                $.ajax({
+                    type:'POST' ,
+                    url:'http://120.101.8.8/npstore/php/client.php' ,
+                    data : { action:'exe_prepaid' , user: $user , prepaid_num: Number( $("#prepaid_num").html() )  } ,
+                    success:function(data){
+                        $("#success_alert").fadeIn(200);
+                        setTimeout( location.replace('select.html') , 2200 ) ;
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="prepaid_frame" class="container">
+        <div id="prepaid_num_row" class="row">
+            儲值金額:
+            <div id="prepaid_num" class="col-5">
+                
+            </div>
+            <div class="col-3">
+                <img id="C" src="img/key/clear.png" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img id="7" src="img/key/7.png" alt="">
+            </div>
+            <div class="col">
+                <img id="8" src="img/key/8.png" alt="">
+            </div>
+            <div class="col">
+                <img id="9" src="img/key/9.png" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img id="4" src="img/key/4.png" alt="">
+            </div>
+            <div class="col">
+                <img id="5" src="img/key/5.png" alt="">
+            </div>
+            <div class="col">
+                <img id="6" src="img/key/6.png" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img id="1" src="img/key/1.png" alt="">
+            </div>
+            <div class="col">
+                <img id="2" src="img/key/2.png" alt="">
+            </div>
+            <div class="col">
+                <img id="3" src="img/key/3.png" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img id="0" src="img/key/0.png" alt="">
+            </div>
+            <div class="col">
+                <img src="img/select/prepaid.png" id="prepaid_img" width="150px;" height="75px" alt="" >
+            </div>
+            <div class="col">
+                <button id="exit_btn" class="btn btn-danger" type="button" name="button">
+                    離開<br>
+                    (取消儲值)
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="exit_alert" class="myalert1">
+        確認離開?
+        <button type="button" class="button btn btn-danger" id="exit_check_btn" name="button">是</button>
+        <button type="button" class="button btn btn-secondary" id="exit_exit_btn" name="button">否</button>
+    </div>
+    <div id="prepaid_alert" class="myalert2">
+        使用者:
+        <span id="account_check"></span>
+        <br>
+        儲值金額:
+        <span id="num_check"></span>
+        <br>
+        <button id="prepaid_btn" class="btn btn-success" type="button" name="button">儲值</button>
+        <button id="noprepaid_btn" class="btn btn-danger" type="button" name="button">取消</button>
+    </div>
+    <div id="success_alert" class="myalert1">
+        儲值成功<br>
+        請確認帳戶
+    </div>
+</body>
+</html>
