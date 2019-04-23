@@ -319,7 +319,7 @@
                         .addEventListener("click", function() {
                             $("#wait").fadeIn( 1000 ) ;
                             context.drawImage(video, 0, 0, 640, 480);
-                            var dataURL= canvas.toDataURL() ;
+                            var dataURL= canvas.toDataURL("image/jpeg", 1.0) ;
                             $.ajax({
                                 type:'POST',
                                 url: 'http://120.101.8.8/npstore/php/client.php' ,
