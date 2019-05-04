@@ -16,10 +16,41 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>無人商店結帳系統</title>
     <style type="text/css">
-        .select_frame{
-            margin-top: 100px;
-            margin-left: 100px;
+        @media only screen and (max-width:900px){
+            .select_frame{
+                margin-top: 100px;
+                margin-left: 100px;
+            }
         }
+        @media only screen and (min-width:900px){
+            .select_frame{ 
+                width: 100vw;
+                height: 50vh;     
+                position:absolute;
+                top: 50vh;
+                margin-top: -27vh;
+                background-color: rgba(0, 0, 0, 0);
+                z-index: 0;
+            }
+            .select_btn{
+                position: relative;
+                display: inline;
+                font-size: 2000%;
+                color:#dc143c;
+                border-style: dashed;
+                border-color: white;
+                margin-left: 7vw;
+                margin-right: 7vw;
+                text-align: center;
+                z-index: 2;
+            }
+            body{
+                width: 100vw;
+                height: 100vh;
+                z-index: 1;
+                background: linear-gradient( 90deg , #3f87a6, #ebf8e1, #00ff7f ) ;
+            }
+        }        
     </style>
     <script type="text/javascript">
         $(function(){
@@ -45,9 +76,19 @@
     </script>
 </head>
 <body>
+    <!--
     <div class="select_frame">
         <img id="checkout" src="img/select/checkout.png" alt="">
         <img id="prepaid" src="img/select/prepaid.png" alt="">
+    </div>
+    -->
+    <div class="select_frame">
+        <div id="checkout" class="select_btn" style="background-color:#aaf;  ">
+            結帳
+        </div>
+        <div id="prepaid" class="select_btn" style="background-color:#afa;">
+            儲值
+        </div>
     </div>
 </body>
 </html>

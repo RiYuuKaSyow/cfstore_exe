@@ -9,16 +9,16 @@ function createwindow(){
         //fullscreen:false,
         fullscreen:true,
         fullscreenable:true, 
-        width:720,
-        height:480,
+        //width:800,
+        //height:480,
         resizable:true,
         title:'無人商店結帳系統' ,
-        icon:'logo.png'
+        icon:'logo.ico'
     });
     electron.Menu.setApplicationMenu(null) ;
     mainwindow.loadFile('select.html') ;
-    //mainwindow.webContents.openDevTools() ;
-    mainwindow.setFullScreen(true) ;
+    mainwindow.webContents.openDevTools() ;
+    //mainwindow.setFullScreen(true) ;
     mainwindow.on('closed',function(){
         mainwindow = null ;
     }) ;

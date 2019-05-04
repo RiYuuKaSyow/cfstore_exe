@@ -17,57 +17,117 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>無人商店結帳系統-儲值</title>
     <style media="screen">
-        #prepaid_frame{
-            background-color: #e8e8e8;
-            margin-top: 5px ;
-            height: 475px;
-            width: 900px;
+        @media only screen and (max-width:900px) {
+            #prepaid_frame{
+                background-color: #e8e8e8;
+                margin-top: 5px ;
+                height: 475px;
+                width: 900px;
+            }
+            #prepaid_frame div{
+                margin-top: 5px;
+            }
+            .myalert1{
+                
+                background-color: #fff;
+                font-size: 400% ;
+                display: none ;
+                position: absolute;
+                top: 0;
+                height: 480px;
+                width: 800px;
+                border:2px #cccccc solid;
+                z-index: 9999 ;
+            }
+            .myalert2{
+                background-color: #fff;
+                font-size: 400% ;
+                display: none ;
+                position: absolute;
+                border:2px #cccccc solid;
+                z-index: 9999 ;
+                top: 0;
+                height: 480px;
+                width: 800px;
+            }
+            #exit_alert button{
+                width:100px;
+                height: 100px;
+            }
+            #prepaid_num{
+                background-color: white;
+                border-style: solid;
+                border-color: #eee;
+                height: 47px;
+            }
+            #prepaid_num_row{
+                font-size: 36px;
+            }
+            #exit_btn{
+                width:150px;
+                height: 75px;
+                font-size: 25px;
+                text-align: center;
+            }
         }
-        #prepaid_frame div{
-            margin-top: 5px;
-        }
-        .myalert1{
+        
+        @media only screen and (min-width : 900px  ) {
             
-            background-color: #fff;
-            font-size: 400% ;
-            display: none ;
-            position: absolute;
-            top: 0;
-            height: 480px;
-            width: 800px;
-            border:2px #cccccc solid;
-            z-index: 9999 ;
+            #prepaid_num{
+                font-size: 450%;
+                width: 900px;
+            }
+            .calculate{
+                position: absolute;
+                top: 2vh;
+                left:20vw;
+            }
+            .btn-color{
+                text-align: center;
+                background-color:#cc8763 ;
+                color:#fff;
+                font-size: 500%;
+                width: 100%;
+            }
+            td{
+                width:300px;
+            }
+            .myalert1{
+                text-align: center;
+                background-color: #fff;
+                font-size: 600% ;
+                display: none ;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                border:2px #cccccc solid;
+                z-index: 9999 ;
+            }
+            .myalert2{
+                text-align: center;
+                background-color: #fff;
+                font-size: 600% ;
+                display: none ;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                border:2px #cccccc solid;
+                z-index: 9999 ;
+            }
+            .alert_btn{
+                font-size: 250%;
+            }
+            body{
+                width: 100vw;
+                height: 100vh;
+                background: linear-gradient(to right bottom , #EE82EE , #9400D3);
+            }
         }
-        .myalert2{
-            background-color: #fff;
-            font-size: 400% ;
-            display: none ;
-            position: absolute;
-            border:2px #cccccc solid;
-            z-index: 9999 ;
-            top: 0;
-            height: 480px;
-            width: 800px;
-        }
-        #exit_alert button{
-            width:100px;
-            height: 100px;
-        }
-        #prepaid_num{
-            background-color: white;
-            border-style: solid;
-            border-color: #eee;
-            height: 47px;
-        }
-        #prepaid_num_row{
-            font-size: 36px;
-        }
-        #exit_btn{
-            width:150px;
-            height: 75px;
-            font-size: 25px;
-            text-align: center;
-        }
+        
     </style>
     <script type="text/javascript">
         var $user = localStorage["user"];
@@ -81,20 +141,13 @@
             $("#exit_check_btn").click(function(){
                 location.replace('select.html') ;
             })
-            var num = '' ;
-            for( var i = 0 ; i < 10 ; i++ ){
-                $("#"+i).click(function(){
-                    num += String( $(this).attr('id') ) ;
-                    $("#prepaid_num").html(num) ;
-                })
-            };
             $("#C").click(function(){
                 num = '' ;
                 $("#prepaid_num").html(num) ;
             });
             $("#prepaid_img").click(function(){
                 $("#account_check").html($user) ;
-                $("#num_check").html( $("#prepaid_num").html() ) ;
+                $("#num_check").html( $("#prepaid_num").val() ) ;
                 $("#prepaid_alert").fadeIn(200);    
             });
             $("#noprepaid_btn").click(function(){
@@ -104,17 +157,36 @@
                 $.ajax({
                     type:'POST' ,
                     url:'http://120.101.8.8/npstore/php/client.php' ,
-                    data : { action:'exe_prepaid' , user: $user , prepaid_num: Number( $("#prepaid_num").html() )  } ,
+                    data : { action:'exe_prepaid' , user: $user , prepaid_num: Number( $("#prepaid_num").val() )  } ,
                     success:function(data){
                         $("#success_alert").fadeIn(200);
                         setTimeout( location.replace('select.html') , 2200 ) ;
                     }
                 })
             });
+            var val = '' ;
+            $("#num_table button").addClass('btn') ;
+            $("#num_table button").addClass('btn-color') ;
+            
+            for( var i = 2 ; i <= 11 ; i++ ){
+                $("#num_table button:eq(" +i+ ")" ).click(function(){
+                    val += $(this).html() ;
+                    $("#prepaid_num").val(val) ;
+                });
+            };
+            $("#clean").click(function(){
+                val = '' ;
+                $("#prepaid_num").val(val) ;
+            });
+            $("#back").click(function(){
+                val = val.substr(0, val.length-1 )  ;
+                $("#prepaid_num").val(val) ;
+            });
         });
     </script>
 </head>
 <body>
+    <!--
     <div id="prepaid_frame" class="container">
         <div id="prepaid_num_row" class="row">
             儲值金額:
@@ -173,10 +245,44 @@
             </div>
         </div>
     </div>
+    -->
+    <div class="calculate">
+        <div class="text_val">
+            <input id="prepaid_num" readonly="readonly" >
+        </div>
+        <table id="num_table">
+            <tr>
+                <td><button id="clean" type="button" name="button">C</button></td>
+                <td colspan="2"><button id="back" type="button" name="button">back</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" name="button">7</button></td>
+                <td><button type="button" name="button">8</button></td>
+                <td><button type="button" name="button">9</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" name="button">4</button></td>
+                <td><button type="button" name="button">5</button></td>
+                <td><button type="button" name="button">6</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" name="button">1</button></td>
+                <td><button type="button" name="button">2</button></td>
+                <td><button type="button" name="button">3</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" name="button">0</button></td>
+                <td><button id="exit_btn" class="btn btn-danger" type="button" name="button">
+                    離開
+                </button></td>
+                <td><button  id="prepaid_img" class="btn-success" type="button" name="button">儲值</button></td>
+            </tr>
+        </table>
+    </div>
     <div id="exit_alert" class="myalert1">
         確認離開?
-        <button type="button" class="button btn btn-danger" id="exit_check_btn" name="button">是</button>
-        <button type="button" class="button btn btn-secondary" id="exit_exit_btn" name="button">否</button>
+        <button type="button" class="alert_btn btn btn-danger" id="exit_check_btn" name="button">是</button>
+        <button type="button" class="alert_btn btn btn-secondary" id="exit_exit_btn" name="button">否</button>
     </div>
     <div id="prepaid_alert" class="myalert2">
         使用者:
@@ -185,12 +291,13 @@
         儲值金額:
         <span id="num_check"></span>
         <br>
-        <button id="prepaid_btn" class="btn btn-success" type="button" name="button">儲值</button>
-        <button id="noprepaid_btn" class="btn btn-danger" type="button" name="button">取消</button>
+        <button id="prepaid_btn" class="alert_btn btn btn-success" type="button" name="button">儲值</button>
+        <button id="noprepaid_btn" class="alert_btn btn btn-danger" type="button" name="button">取消</button>
     </div>
     <div id="success_alert" class="myalert1">
         儲值成功<br>
         請確認帳戶
     </div>
+
 </body>
 </html>

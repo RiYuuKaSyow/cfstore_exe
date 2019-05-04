@@ -1,0 +1,5 @@
+#file name : .gitignore
+
+#忽略打包win
+
+/NPstore-win32-x64/
