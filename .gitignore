@@ -3,3 +3,4 @@
 #忽略打包win
 
 /NPstore-win32-x64/
+NPstore-win32-x64/**/*

@@ -55,10 +55,23 @@
             body{
                 width: 100vw;
                 height: 100vh;
-                background: linear-gradient( to bottom , #e66465, #9198e5);
+                background-color:  #9198e5;
+            }
+            #exit{
+                position: absolute;
+                font-size: 300%;
+                top:85% ;
+                left: 87%;
             }
         }
     </style>
+    <script type="text/javascript">
+        $(function(){
+            $("#exit").click(function(){
+                location.replace('select.html');
+            })
+        });
+    </script>
 </head>
 <body>
     
@@ -118,6 +131,7 @@
             });
             </script>
         </div>
+        <button id="exit" type="button" class="btn btn-danger" name="button">離開</button>
     </div>
     
 </body>

@@ -169,6 +169,7 @@
                 width:10%;
             }
             .myalert1{
+                padding-top: 15%;
                 text-align: center;
                 background-color: #fff;
                 font-size: 500% ;
@@ -183,6 +184,9 @@
                 z-index: 9999 ;
             }
             .myalert2{
+                padding-top: 5%;
+                align-items: center;
+                text-align: center;
                 font-size: 300%;
                 background-color: #fff;
                 display: none ;
@@ -196,6 +200,7 @@
                 z-index: 9999 ;
             }
             .myalert3{
+                padding-top: 15%;
                 text-align: center;
                 background-color: #fff;
                 font-size: 500% ;
@@ -278,10 +283,10 @@
                 $("#checkout").hide() ;
             });
             $("#exit_btn").click(function(){
-                $("#exit_alert").slideDown() ;
+                $("#exit_alert").fadeIn(300) ;
             });
             $("#exit_exit_btn").click(function(){
-                $("#exit_alert").slideUp() ;
+                $("#exit_alert").fadeOut(300) ;
             });
             $("#exit_check_btn").click(function(){
                 location.replace('select.html') ;
@@ -382,7 +387,7 @@
             結帳按鈕
         </button>
         <button type="button" id="exit_btn" class="button btn btn-danger" name="button">
-            離開(取消結帳)
+            取消結帳
         </button>
         <table class="t0 table table-bordered">
             <thead class=" thead-light ">
@@ -426,8 +431,8 @@
     </div>
     <div id="exit_alert" class="myalert3">
         確認離開?<br>
-        <button type="button" class="button btn btn-danger" id="exit_check_btn" name="button">是</button>
-        <button type="button" class="button btn btn-secondary" id="exit_exit_btn" name="button">否</button>
+        <button type="button" class="button btn btn-danger" id="exit_check_btn" name="button">確認</button>
+        <button type="button" class="button btn btn-secondary" id="exit_exit_btn" name="button">取消</button>
     </div>
     
 </body>

@@ -17,7 +17,7 @@ function createwindow(){
     });
     electron.Menu.setApplicationMenu(null) ;
     mainwindow.loadFile('select.html') ;
-    mainwindow.webContents.openDevTools() ;
+    //mainwindow.webContents.openDevTools() ;
     //mainwindow.setFullScreen(true) ;
     mainwindow.on('closed',function(){
         mainwindow = null ;
